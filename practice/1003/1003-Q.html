@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>1003: 顺序表&#xff08;3&#xff09;</h2>
+    <h2>Description</h2>
+    <p>请在上题SortList类的基础上添加成员函数Merge&#xff0c;实现两个有序表的合并。部分代码已经给出&#xff0c;请勿改动。注意&#xff1a;合并算法效率要求为O(m&#43;n)&#xff0c;不能借助排序算法实现。
+    </p>
+    <p>//有序表类</p>
+    <pre><code class="language-cpp">template &lt;class T&gt;
+
+class SortList{
+
+       public:
+
+              SortList(){length&#61;0;}
+
+              ~SortList(){}
+
+              void Insert(T x);    //有序表的插入&#xff0c;使序列仍有序
+
+            void DispList();      //输出表
+
+           /*成员函数Merge实现两个有序表的合并&#xff0c;使序列仍有序&#xff0c;
+
+              将A表和B表合并到当前类中&#xff0c;要求&#xff1a;A表&#xff0c;B表的元素保持不变*/          
+
+              void Merge(SortList &lt;T&gt; &amp;A,SortList &lt;T&gt; &amp;B);
+
+       private:
+
+              T data[MaxSize]; //存储元素
+
+          int length;              //顺序表实际长度
+
+};
+
+//构造有序表A&#xff1a;函数声明
+
+template &lt;class T&gt;
+
+void CreateSort(SortList &lt;T&gt; &amp;A);
+
+int main(){
+
+
+
+       SortList &lt;int&gt; A,B,C;   
+
+       //生成一个有序表A
+
+       CreateSort(A);
+
+       //生成一个有序表B
+
+       CreateSort(B);      
+
+       try{
+
+              C.Merge(A,B);//合并A,B表为C表       
+
+       }           
+
+    catch(const char* wrong){
+
+              cout &lt;&lt; wrong;    //如失败提示失败信息
+
+       }
+
+      A.DispList();
+
+       B.DispList();
+
+       C.DispList(); //显示合并后的结果
+
+       return 0;
+
+}
+
+
+
+//构造有序表A&#xff1a;函数定义
+
+template &lt;class T&gt;
+
+void CreateSort(SortList &lt;T&gt; &amp;A){
+
+       int i,n;
+
+       T x;
+
+       cin&gt;&gt;n;
+
+       for (i&#61;1;i&lt;&#61;n;i&#43;&#43;){
+
+              cin&gt;&gt;x;
+
+              try{
+
+                     A.Insert(x);
+
+              }
+
+              catch(char *wrong){
+
+                     cout&lt;&lt;wrong&lt;&lt;endl;
+
+              }
+
+       }
+
+}</code></pre>
+    <h2>Input</h2>
+    <p>数据输入格式&#xff1a;第一个为所创建表的元素个数&#xff0c;之后是各个元素值&#xff0c;例如&#xff0c;下例输入&#xff0c;两个表的元素个数分别为5&#xff0c;6。</p>
+    <p>5 4 24 2 42 3<br /> 6 78 36 34 24 64 43</p>
+    <h2>Output</h2>
+    <h2>Sample Input</h2>
+    <pre><code class="language-html">5 4 24 2 42 3
+6 78 36 34 24 64 43
+</code></pre>
+    <h2>Sample Output</h2>
+    <pre><code class="language-html">The length:5
+The elements:
+2 3 4 24 42 
+The length:6
+The elements:
+24 34 36 43 64 78 
+The length:11
+The elements:
+2 3 4 24 24 34 36 42 43 64 78 </code></pre>
+    <pre><code class="language-cpp">#include&lt;iostream&gt;
+
+using namespace std;
+const int MaxSize &#61; 100;
+
+template&lt;class T&gt;
+class SortList {
+private:
+    T data[MaxSize]; //存储元素
+    int length;              //顺序表实际长度
+public:
+    SortList() { length &#61; 0; }
+
+    ~SortList() {}
+
+    void Insert(T x);   //有序表的插入&#xff0c;使序列仍有序
+
+    /*成员函数Merge实现两个有序表的合并&#xff0c;使序列仍有序&#xff0c;
+       将A表和B表合并到当前类中&#xff0c;要求&#xff1a;A表&#xff0c;B表的元素保持不变*/
+    void Merge(SortList&lt;T&gt; &amp;A, SortList&lt;T&gt; &amp;B);
+
+    void DispList();      //输出表
+
+};
+
+template&lt;class T&gt;
+void SortList&lt;T&gt;::DispList() {
+    cout &lt;&lt; &#34;The length:&#34; &lt;&lt; length &lt;&lt; endl;
+    cout &lt;&lt; &#34;The elements:&#34; &lt;&lt; endl;
+    for (int i &#61; 0; i &lt; length; i&#43;&#43;) {
+        cout &lt;&lt; data[i] &lt;&lt; &#34; &#34;;
+    }
+    cout &lt;&lt; endl;
+}
+
+template&lt;class T&gt;
+void SortList&lt;T&gt;::Insert(T x) {
+    int i;
+    for (i &#61; 0; i &lt; length; i&#43;&#43;) {
+        if (data[i] &gt; x)break;
+    }
+    for (int j &#61; length; j &gt; i; j--) {
+        data[j] &#61; data[j - 1];
+    }
+    data[i] &#61; x;
+    length&#43;&#43;;
+}
+
+template&lt;class T&gt;
+void SortList&lt;T&gt;::Merge(SortList&lt;T&gt; &amp;A, SortList&lt;T&gt; &amp;B) {
+    int ai &#61; 0, bi &#61; 0;
+    while (ai &lt; A.length &amp;&amp; bi &lt; B.length) {
+        if (A.data[ai] &lt; B.data[bi]) {
+            data[length&#43;&#43;] &#61; A.data[ai&#43;&#43;];
+        } else {
+            data[length&#43;&#43;] &#61; B.data[bi&#43;&#43;];
+        }
+    }
+    while (ai &lt; A.length) data[length&#43;&#43;] &#61; A.data[ai&#43;&#43;];
+    while (bi &lt; B.length) data[length&#43;&#43;] &#61; B.data[bi&#43;&#43;];
+}
+
+///构造有序表A&#xff1a;函数定义
+template&lt;class T&gt;
+void CreateSort(SortList&lt;T&gt; &amp;A) {
+    int i, n;
+    T x;
+    cin &gt;&gt; n;
+    for (i &#61; 1; i &lt;&#61; n; i&#43;&#43;) {
+        cin &gt;&gt; x;
+        try {
+            A.Insert(x);
+        }
+        catch (char *wrong) {
+            cout &lt;&lt; wrong &lt;&lt; endl;
+        }
+    }
+}
+
+//构造有序表A&#xff1a;函数声明
+template&lt;class T&gt;
+void CreateSort(SortList&lt;T&gt; &amp;A);
+
+int main() {
+
+    SortList&lt;int&gt; A, B, C;
+    //生成一个有序表A
+    CreateSort(A);
+    //生成一个有序表B
+    CreateSort(B);
+    try {
+        C.Merge(A, B);//合并A,B表为C表
+    }
+    catch (const char *wrong) {
+        cout &lt;&lt; wrong;    //如失败提示失败信息
+    }
+    A.DispList();
+    B.DispList();
+    C.DispList(); //显示合并后的结果
+    return 0;
+}</code></pre>
+</body>
+
+</html>
