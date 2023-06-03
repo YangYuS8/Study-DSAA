@@ -1,4 +1,5 @@
 #include<iostream>
+#include "CircleQueue.cpp"
 using namespace std;
 const int MaxSize = 100;
 int visited[MaxSize];
@@ -40,6 +41,7 @@ MGraph<T>::MGraph(T a[], int vn, int en)
     }
     //将有边关系的位置设置为1：键盘输入有关系的顶点下标
     int vi, vj;
+    cout << "请输入有边的顶点序号：" << endl;
     for(int k = 0; k < arcNum; k++)
     {
         cin >> vi >> vj;
@@ -74,15 +76,46 @@ void MGraph<T>::BFS(int v)
     //1.访问顶点Vv，设置标识位
     cout << vertex[v] << " ";
     visited[v] = 1;
-    
-    //2.访问v的所有的未访问的邻接点w
-    for(int w = 0; w < vertexNum; w++)
+    //创建队列
+    CircleQueue<int> Q;//顶点元素所在的下标
+    //v入队
+    Q.EnQueue(v);
+    while(!Q.Empty())
     {
-        if (arc[v][w] == 1 && visited[w] == 0)
+        v = Q.DeQueue();//出队
+        //2.访问v的所有的未访问的邻接点w
+        for(int w = 0; w < vertexNum; w++)
         {
-            //3.输出Vw，设置标识位
-            cout << vertex[w] << " ";
-            visited[w] = 1;
+            if (arc[v][w] == 1 && visited[w] == 0)
+            {
+                //3.输出Vw，设置标识位
+                cout << vertex[w] << " ";
+                visited[w] = 1;
+                Q.EnQueue(w);//w入队
+            }
         }
     }
+}
+
+int main()
+{
+    char v[] = {'A', 'B', 'C', 'D', 'E'};
+    MGraph<char> G(v, 5, 4);
+    //visited数组初始化
+    for (int i = 0; i < 5; i++)
+    {
+        visited[i] = 0;
+    }
+    cout << "深度优先遍历：";
+    G.DFS(0);
+    cout << endl;
+    //visited数组初始化
+    for (int i = 0; i < 5; i++)
+    {
+        visited[i] = 0;
+    }
+    cout << "广度优先遍历：";
+    G.BFS(0);
+    cout << endl;
+    return 0;
 }

@@ -107,7 +107,7 @@ void CircleQueue<T>::PrintQueue()
     }
     cout << endl;
 }
-
+/*
 int main()
 {
     try
@@ -142,4 +142,6 @@ int main()
     {
         cout << ms << endl;
     }
+    return 0;
 }
+*/
