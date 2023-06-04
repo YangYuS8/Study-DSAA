@@ -14,7 +14,7 @@ public:
     T DeQueue();       // 将队头元素出队
     T GetQueue();      // 取队头元素（并不删除）
     bool Empty();      // 判断队列是否为空
-    bool Full();
+    bool Full();       // 判断队列是否为满
 
 private:
     T data[QueueSize]; // 存放队列元素的数组
@@ -137,9 +137,55 @@ void MGraph<T>::DispMGraph()
         cout << endl;
     }
 }
+
 // 在此处实现深度优先遍历算法
+template<class T>
+void MGraph<T>::DFSTraverse(int v)
+{
+    cout << vertex[v] << " ";
+    visited[v] = 1;//这是一个单独的数组，用来记录是否访问过
+    for (int w = 0; w < vertexNum; w++)
+    {
+        if (arc[v][w] == 1 && visited[w] == 0)//如果有边且未访问过
+        {
+            DFSTraverse(w);
+        }
+    }
+}
+// void MGraph<T>::DFSTraverse(int v)
+// {
+//     cout << vertex[v] << " ";
+//     for (int w = 0; w < vertexNum; w++)
+//     {
+//         if (arc[v][w] == 1 && visited[w] == 0)
+//         {
+//             DFSTraverse(w);
+//         }
+//     }
+// }
 
 // 在此处实现广度优先遍历算法
+template<class T>
+void MGraph<T>::BFSTraverse(int v)
+{
+    cout << vertex[v] << " ";
+    visited[v] = 1;
+    CirQueue<int> Q;
+    Q.EnQueue(v);
+    while(!Q.Empty())
+    {
+        v = Q.DeQueue();
+        for (int w = 0; w < vertexNum; w++)
+        {
+            if (arc[v][w] == 1 && visited[w] == 0)
+            {
+                cout << vertex[w] << " ";
+                visited[w] = 1;
+                Q.EnQueue(w);
+            }
+        }
+    }
+}
 
 int main()
 {
