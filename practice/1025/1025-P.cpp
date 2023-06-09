@@ -108,6 +108,7 @@ void ALGraph<T>::DispALGraph()
 template <class T>
 void ALGraph<T>::CountInD(int ind[])
 {
+    
 }
 // 计算各个顶点的出度
 template <class T>
