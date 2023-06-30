@@ -108,7 +108,19 @@ void ALGraph<T>::DispALGraph()
 template <class T>
 void ALGraph<T>::CountInD(int ind[])
 {
-    
+    for(int i=0;i<vertexNum;i++)
+    {
+        ind[i]=0;//初始化
+    }
+    for(int i=0;i<vertexNum;i++)
+    {
+        ArcNode *p=adjlist[i].firstedge;//p指向i号顶点的第一个邻接点
+        while(p!=NULL)
+        {
+            ind[p->adjvex]++;//邻接点的入度加1
+            p=p->next;
+        }
+    }
 }
 // 计算各个顶点的出度
 template <class T>
@@ -124,7 +136,7 @@ int main()
     G.DispALGraph();
     int ind[MaxSize];
     cout << "Indegree:";
-    G.CountInD(ind);
+    G.CountInD(ind);// 计算各个顶点的入度,存储在ind中
     for (i = 0; i < n; i++)
         cout << ind[i] << " "; // 输出各个顶点的入度
     cout << endl;
